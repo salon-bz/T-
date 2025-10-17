@@ -1,0 +1,54 @@
+<!-- admin.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Panel Admin - ZMLX</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/admin.css" />
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true"><span class="orb o2"></span></div>
+
+  <div class="container">
+    <div class="admin-header">
+      <h2 class="title">Panel Admin</h2>
+      <div>
+        <button id="logout" class="btn floating">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div>
+        <div class="card">
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+            <button id="tabGratis" class="btn floating btn-primary">Productos Gratuitos</button>
+            <button id="tabVip" class="btn floating btn-accent">Productos VIP</button>
+          </div>
+
+          <!-- FORM -->
+          <div id="formArea">
+            <!-- dinámico -->
+          </div>
+        </div>
+
+        <div style="margin-top:14px" class="card">
+          <h4>Lista de publicaciones</h4>
+          <div id="listArea" class="admin-list"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h4>Información</h4>
+          <p class="small-muted">Usa enlaces de imagen (URL). Para VIP puedes ingresar varios precios separados por | (ej: $10|$20|$30).</p>
+          <p class="small-muted">Los productos se guardan en Firestore en las colecciones <code>gratis</code> y <code>vip</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>
