@@ -1,0 +1,102 @@
+/* css/style.css - fondo galáctico, glow y animaciones flotantes */
+
+:root{
+  --bg1: #060617;
+  --neon-purple: #8b5cf6;
+  --neon-blue: #06b6d4;
+  --neon-red: #ff2d55;
+  --neon-yellow: #ffd166;
+  --glass: rgba(255,255,255,0.04);
+  --card-bg: rgba(10,10,15,0.6);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+body{
+  background: radial-gradient(ellipse at 10% 10%, rgba(139,92,246,0.08), transparent 6%),
+              radial-gradient(ellipse at 90% 80%, rgba(6,182,212,0.06), transparent 8%),
+              linear-gradient(180deg, #04040a 0%, #070615 50%, #02020a 100%);
+  color:#e6eef8;
+  overflow-y:auto;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  position:relative;
+}
+
+/* moving background orbs */
+.bg-orbs{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(40px);opacity:0.25;mix-blend-mode:screen;
+  animation: drift 20s linear infinite;
+}
+.orb.o1{width:420px;height:420px;left:-10%;top:-5%;background:linear-gradient(45deg,var(--neon-purple),var(--neon-blue));animation-duration:28s}
+.orb.o2{width:300px;height:300px;right:-5%;bottom:-10%;background:linear-gradient(45deg,var(--neon-yellow),var(--neon-red));animation-duration:33s;opacity:0.18}
+.orb.o3{width:200px;height:200px;left:60%;top:10%;background:linear-gradient(45deg,var(--neon-blue),var(--neon-purple));animation-duration:24s;opacity:0.2}
+@keyframes drift{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-40px) translateX(30px)}100%{transform:translateY(0) translateX(0)}}
+
+/* container */
+.container{max-width:1100px;margin:0 auto;padding:36px;position:relative;z-index:2}
+
+/* header / title */
+.title{
+  text-align:center;font-size:38px;letter-spacing:6px;margin-top:32px;
+  text-shadow:0 0 18px rgba(139,92,246,0.25), 0 0 30px rgba(6,182,212,0.12);
+  font-weight:700;
+}
+.subtitle{ text-align:center;color:rgba(230,238,248,0.65);margin-top:6px;margin-bottom:26px;}
+
+/* card */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(120,120,150,0.06);
+  padding:18px;border-radius:14px;backdrop-filter: blur(6px);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+}
+
+/* neon button with floating effect */
+.btn{
+  display:inline-block;padding:12px 20px;border-radius:10px;text-decoration:none;
+  font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 24px rgba(11,12,27,0.6);
+  position:relative;overflow:visible;transition:transform 200ms cubic-bezier(.2,.9,.3,1);
+}
+.btn:focus{outline:none}
+.btn::after{
+  content:'';position:absolute;inset:0;border-radius:10px;
+  box-shadow:0 0 28px rgba(139,92,246,0.18), 0 0 48px rgba(6,182,212,0.08);
+  opacity:0;transition:opacity .3s;
+}
+.btn:hover::after{opacity:1}
+
+/* floating slow bob animation for each button */
+.floating{
+  animation: floatY 4.8s ease-in-out infinite;
+  transform-origin:center;
+}
+@keyframes floatY {
+  0%{ transform: translateY(0) }
+  50%{ transform: translateY(-10px) }
+  100%{ transform: translateY(0) }
+}
+
+/* variant colors */
+.btn-primary{ background: linear-gradient(90deg,var(--neon-purple),var(--neon-blue)); color:#fff; border: none; }
+.btn-accent{ background: linear-gradient(90deg,var(--neon-red),var(--neon-yellow)); color:#09060b; border: none; }
+
+/* top-right menu */
+.menu-btn{position:fixed;right:20px;top:16px;z-index:10;background:transparent;border:0;color:#fff;font-size:20px;padding:8px;border-radius:8px}
+.menu-panel{position:fixed;right:20px;top:56px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);display:none;z-index:11}
+.menu-panel a, .menu-panel button{display:block;color:#e6eef8;padding:8px;text-decoration:none;border-radius:6px}
+.menu-panel a:hover, .menu-panel button:hover{background:rgba(255,255,255,0.02)}
+
+/* footer */
+.footer{position:fixed;left:18px;bottom:10px;color:rgba(230,238,248,0.5);font-size:13px;z-index:10}
+
+/* responsive */
+.row{display:flex;gap:18px;flex-wrap:wrap}
+.col{flex:1;min-width:240px}
+
+/* helper glow */
+.glow-outline{box-shadow: 0 0 18px rgba(139,92,246,0.12), inset 0 0 12px rgba(6,182,212,0.04);}
