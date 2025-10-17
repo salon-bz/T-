@@ -1,0 +1,70 @@
+<!-- productos-gratis.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Productos Gratuitos - ZMLX</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/productos.css" />
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true">
+    <span class="orb o1"></span><span class="orb o2"></span>
+  </div>
+
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <div class="menu-panel" id="menuPanel">
+    <a id="contactAdmin" href="#">Contactar con admin</a>
+    <a href="./login.html">Eres admin</a>
+  </div>
+
+  <div class="container">
+    <a href="./index.html" class="btn floating" style="margin-bottom:14px">← Volver</a>
+    <h2 class="title">Gratuitos</h2>
+    <p class="subtitle">Descarga y sigue la instalación desde el botón.</p>
+
+    <div id="products" class="product-list"></div>
+  </div>
+
+  <div class="footer">Z•M•L•X RED TEAM</div>
+
+  <script type="module">
+    import { db } from './js/firebase.js';
+    import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
+    const contactAdmin = document.getElementById('contactAdmin');
+    menuBtn.addEventListener('click', ()=> menuPanel.style.display = menuPanel.style.display === 'block' ? 'none' : 'block');
+    contactAdmin.href = 'https://wa.me/573142369516?text=' + encodeURIComponent('hola vengo de la pagina web');
+
+    const productsRoot = document.getElementById('products');
+
+    async function loadGratis(){
+      productsRoot.innerHTML = 'Cargando...';
+      const q = query(collection(db, 'gratis'), orderBy('createdAt','desc'));
+      const snap = await getDocs(q);
+      productsRoot.innerHTML = '';
+      if(snap.empty){ productsRoot.innerHTML = '<div class="card">No hay publicaciones.</div>'; return; }
+      snap.forEach(doc => {
+        const p = doc.data();
+        const div = document.createElement('div');
+        div.className = 'product-card card';
+        div.innerHTML = `
+          <img src="${p.imageURL || 'https://via.placeholder.com/600x320?text=sin+imagen'}" alt="${escapeHtml(p.title)}"/>
+          <h3>${escapeHtml(p.title)}</h3>
+          <p>${escapeHtml(p.description || '')}</p>
+          <div class="product-actions">
+            <a class="btn floating btn-primary" target="_blank" href="${p.downloadLink || '#'}">Descargar</a>
+            <a class="btn floating" target="_blank" href="${p.tutorialLink || '#'}">Ver instalación</a>
+          </div>
+        `;
+        productsRoot.appendChild(div);
+      });
+    }
+    function escapeHtml(s=''){return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]))}
+    loadGratis();
+  </script>
+</body>
+</html>
